@@ -35,10 +35,8 @@ def get_workout_motd(day):
        a 'message of the day'
     """
     titled_day = str(day).title()
-   
-    workout = WORKOUT_SCHEDULE.get(day.title())
-    print(workout)   
-   
+  
+  
     if titled_day not in WORKOUT_SCHEDULE:
         return INVALID_DAY
     elif WORKOUT_SCHEDULE[titled_day] == REST:
