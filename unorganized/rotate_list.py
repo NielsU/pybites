@@ -15,15 +15,48 @@ print(rotate(string, 2))
 print(rotate(string, -2))'''
 
 # initializing list
-test_list = [1, 4, 6, 7, 2]
+test_list = "julian and bob!"
 
 # printing original list
 print("Original list : " + str(test_list))
+print(test_list[0:-1])
+
+
+def rotate_all(string, n):
+
+    direction = "Left"
+
+    if n < 0:
+        direction = "Right"
+        n = 0 - n
+
+    for _ in range(n):
+        if direction == "Left":
+            string = string[1:] + string[0]
+        else:
+            string = string[-1] + string[0:-1]
+
+    return string
 
 
 def rotate_by_lcomp(string, n):
-    return [string[(i + n) % len(string)] for i, x in enumerate(string)]
+    return str().join([string[(i + n) % len(string)] for i, x in enumerate(string)])
 
 
-print(rotate_by_lcomp("123456", 2))
-print(rotate_by_lcomp("123456", -2))
+def rotate_by_slice(string, n):
+    # effective rotations = number of desired rotations % length of string.
+    n_eff = n % len(string)
+    # print(n_eff)
+    return string[n_eff:] + string[:n_eff]
+
+
+print("listcomprehension enumerate")
+print(rotate_by_lcomp(test_list, -100))
+
+
+print("slice")
+print(rotate_by_slice(test_list, -100))
+
+
+print("rotate_all")
+print(rotate_all(test_list, -100))
