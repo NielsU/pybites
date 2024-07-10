@@ -10,7 +10,7 @@ def get_char():
 
 def get_part(length: int):
     # get one part to use in the liscense of length: length.
-    return "".join([get_char() for _ in range(length)])
+    return "".join(get_char() for _ in range(length))
 
 
 def gen_key(parts: int = 4, chars_per_part: int = 8) -> str:
@@ -26,7 +26,7 @@ def gen_key(parts: int = 4, chars_per_part: int = 8) -> str:
     """
 
     # get the indicated number of parts, separated by a dash.
-    return "-".join([get_part(chars_per_part) for _ in range(parts)])
+    return "-".join(get_part(chars_per_part) for _ in range(parts))
 
 
 for _ in range(10):
