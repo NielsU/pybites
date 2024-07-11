@@ -7,9 +7,11 @@ def fizzbuzz(num: int) -> Union[str, int]:
     and any number divisible by five with the word "buzz".
     """
 
-    if num % 3 == 0:
-        return "fizz"
+    if num % 3 == 0 and num % 5 == 0:
+        return "Fizz Buzz"
+    elif num % 3 == 0:
+        return "Fizz"
     elif num % 5 == 0:
-        return "buzz"
+        return "Buzz"
     else:
         return num
