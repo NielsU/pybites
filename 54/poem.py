@@ -1,14 +1,4 @@
 INDENTS = 4
-"""
-    looks to me what is expected is:
-    
-    - to have paragraphs recognized by indentation instead of empty lines. 
-    
-    - so when empty line next line is not indented, every other line is indented. 
-        - in onther words, for each line, append indentation. 
-        - if prev was empty skip indendation           
-
-"""
 
 
 def print_hanging_indents(poem: str):
