@@ -8,7 +8,7 @@ def count_indents(text: str) -> int:
 
     """
         Approaches explored:
-        1- For loop over string, count break when no char is not ' '.
+        1- For loop over string, count break when char is not ' '.
         2- List comprehension using enumerate, save index of non space chars. Return value of first item.  
         3- Regular expression, match on spaces return end index of match.
         4- Implement break with helper function raising StopIteration if non space char found. (rather complicated)
@@ -23,7 +23,7 @@ def count_indents(text: str) -> int:
 
 
 def count_by_for_loop(text: str) -> int:
-    """1- For loop over string, count break when no char is not ' '."""
+    """For loop over string, count break when char is not ' '."""
 
     for index, char in enumerate(text):
         if char != " ":
