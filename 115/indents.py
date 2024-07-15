@@ -23,7 +23,7 @@ def count_indents(text: str) -> int:
 
 
 def count_by_for_loop(text: str) -> int:
-    """For loop over string, count break when char is not ' '."""
+    """1- For loop enumerate string, return index when char is not ' '."""
 
     for index, char in enumerate(text):
         if char != " ":
