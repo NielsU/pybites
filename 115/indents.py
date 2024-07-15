@@ -13,13 +13,16 @@ def count_indents(text: str) -> int:
         3- Regular expression, match on spaces return end index of match.
         4- Implement break with helper function raising StopIteration if non space char found. (rather complicated)
     """
+    # lol i overlooked the simplest of solutions.
+    return len(text) - len(text.lstrip(" "))
+
     # return count_by_list_comp(text)
 
     # count_by_list_comp_break(text)
 
     # return count_by_for_loop(text)
 
-    return count_by_re(text)
+    # return count_by_re(text)
 
 
 def count_by_for_loop(text: str) -> int:
