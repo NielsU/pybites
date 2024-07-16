@@ -4,7 +4,8 @@ def sort_words_case_insensitively(words):
      numbers you only need to check the first char of the word)
 
     """
+
     return sorted(
         words,
-        key=lambda k: "z" * 3 + k.lower() if k[0].isdigit() else k.lower(),
+        key=lambda k: "z" * 3 + k.casefold() if k[0].isdigit() else k.casefold(),
     )
