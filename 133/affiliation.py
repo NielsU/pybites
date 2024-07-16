@@ -1,6 +1,3 @@
-test_url = "https://www.amazon.com/War-Art-Through-Creative-Battles/dp/1936891026/?keywords=war+of+art"
-
-
 def generate_affiliation_link(url):
     """
     The segment following /dp/ seems to be the affilate number.
