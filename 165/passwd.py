@@ -1,5 +1,4 @@
 from typing import List
-from collections import namedtuple
 
 DEFAULT_SHELL = "bash"
 # https://github.com/avar/git-anyonecanedit-etc/blob/master/passwd
