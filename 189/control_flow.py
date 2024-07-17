@@ -7,7 +7,7 @@ def filter_names(names):
     filtered_names = []
 
     for name in names:
-        if name.startswith(IGNORE_CHAR) or not name.isalpha():
+        if name.startswith(IGNORE_CHAR) or any(char.isdigit() for char in name):
             continue
         elif name.startswith(QUIT_CHAR) or len(filtered_names) == MAX_NAMES:
             break
