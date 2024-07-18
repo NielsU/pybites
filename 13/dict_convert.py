@@ -13,7 +13,7 @@ blog = dict(
 )
 
 # define namedtuple here
-Blog = namedtuple("Blog", "name founders started tags location site")
+Blog = namedtuple("Blog", blog.keys())
 
 
 def dict2nt(dict_: dict):
