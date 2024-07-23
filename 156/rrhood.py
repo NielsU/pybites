@@ -60,20 +60,20 @@ def make_character_index(text=text, characters=CHARACTERS):
     """
     character_index = defaultdict(list)
 
+    # create a dict with flattened characters
+    # so that for tuples the first item is used as character_index key.
+    # doing this first prevents the need for repeating the matching logic. (DRY)
+    flattened_characters = {}
+    for character in characters:
+        if type(character) is tuple:
+            for c in character:
+                flattened_characters[c.lower()] = character[0].lower()
+        else:
+            flattened_characters[character.lower()] = character.lower()
+
     for line_nr, line in enumerate(
         text.strip(string.whitespace).lower().splitlines(), start=1
     ):
-        # create a dict with flattened characters
-        # so that for tuples the first item is used as character_index key.
-        # doing this first prevents the need for repeating the matching logic. (DRY)
-        flattened_characters = {}
-        for character in characters:
-            if type(character) is tuple:
-                for c in character:
-                    flattened_characters[c.lower()] = character[0].lower()
-            else:
-                flattened_characters[character.lower()] = character.lower()
-
         # use flattened character dict to match with line.
         for char_to_match, char_to_index in flattened_characters.items():
             if char_to_match in line and line_nr not in character_index[char_to_index]:
