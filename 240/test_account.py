@@ -57,8 +57,16 @@ def test_account_peter_lt_bob(peters_account, bobs_account):
     assert peters_account < bobs_account
 
 
-def test_account_peter_ht_Jim(peters_account, bobs_account):
+def test_account_peter_ht_jim(peters_account, bobs_account):
     assert bobs_account > peters_account
+
+
+def test_account_bob_sm_eq_jullian(jullians_account, bobs_account):
+    assert bobs_account <= jullians_account
+
+
+def test_bobs_not_smaller_than_jullians(bobs_account, jullians_account):
+    assert not bobs_account < jullians_account
 
 
 def test_add_transaction_valid():
@@ -69,11 +77,17 @@ def test_add_transaction_valid():
     assert len(account) == 1
 
 
-def test_add_transaction_value_error():
+def test_add_transaction_amount_value_error(peters_account):
     amount = "15000"
-    account = Account("Harry")
-    with pytest.raises(ValueError):
-        account.add_transaction(amount)
+    with pytest.raises(ValueError) as e:
+        peters_account.add_transaction(amount)
+
+
+def test_add_transaction_value_error_message(peters_account):
+    try:
+        peters_account.add_transaction("not_an_int")
+    except ValueError as e:
+        assert str(e) == "please use int for amount"
 
 
 def test_balance(peters_account):
