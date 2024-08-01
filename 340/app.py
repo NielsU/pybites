@@ -1,6 +1,6 @@
 from typing import Dict, List
 
-from fastapi import FastAPI, HTTPException, Response, status
+from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel
 
 
@@ -38,25 +38,24 @@ async def read_food(food_id: int):
     return foods[food_id]
 
 
-def not_found_response(resp: Response) -> dict:
-    resp.status_code = status.HTTP_404_NOT_FOUND
-    return {"detail": "Food not found"}
-
-
 # Create the update and delete endpoints here ...
 @app.put("/{id}", status_code=status.HTTP_200_OK)
-async def update_food(id: int, item: Food, resp: Response) -> Food | dict:
+async def update_food(id: int, item: Food) -> Food:
     if id in foods.keys():
         foods[id] = item
         return foods[id]
     else:
-        return not_found_response(resp)
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Food not found"
+        )
 
 
 @app.delete("/{id}", status_code=status.HTTP_200_OK)
-async def delete_food(id: int, resp: Response):
+async def delete_food(id: int):
     if id in foods.keys():
         del foods[id]
         return {"ok": True}
     else:
-        return not_found_response(resp)
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Food not found"
+        )
