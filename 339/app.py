@@ -34,4 +34,4 @@ async def read_food(food_id: int) -> Food:
 
 @app.get("/", status_code=200)
 async def read_foods() -> list[Food]:
-    return [food for _, food in foods.items()]
+    return list(foods.values())
