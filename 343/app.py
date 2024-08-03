@@ -47,7 +47,7 @@ class User(BaseModel):
             for entry in self.food_entries
             if datetime.date(entry.date_added) == datetime.date(datetime.today())
         ]
-        todays_calories = sum([float(entry.total_calories) for entry in todays_entries])
+        todays_calories = sum(float(entry.total_calories) for entry in todays_entries)
 
         return todays_calories
 
