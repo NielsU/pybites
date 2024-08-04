@@ -1,7 +1,7 @@
 import pytest
 from fastapi.testclient import TestClient
 
-from app import FoodEntry, app
+from app import FoodEntry, app, authenticate_user, get_user
 
 LAME_PASSWORD = "1234"  # noqa S105
 
@@ -55,6 +55,17 @@ def food2():
         fibre_grams=10.1,
     )
     return food
+
+
+def test_authenticate_user(user1):
+
+    assert authenticate_user(
+        username=user1["username"], password=LAME_PASSWORD
+    ) == get_user(user1["username"])
+
+    assert not authenticate_user(username=user1["username"], password="wrong")
+
+    assert not authenticate_user(username="wrong", password=LAME_PASSWORD)
 
 
 def test_get_food_entry_without_auth(client, user1, food1):
