@@ -1,12 +1,11 @@
 from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, List
 
-from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi import Depends, FastAPI, HTTPException
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from pydantic import BaseModel
-from jwt.exceptions import InvalidTokenError
 
 # normally would load from env
 SECRET_KEY = (
@@ -117,7 +116,7 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         token_subject: str = payload.get("sub")
-    except (InvalidTokenError, JWTError):
+    except JWTError:
         raise credentials_exception
 
     user = get_user(username=token_subject)
