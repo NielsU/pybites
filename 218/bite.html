@@ -1,0 +1,15 @@
+<p>After creating our <a href="../../../../../bites/paths/decorators-context" target="_blank" rel="noopener">Decorators and Context Managers learning path</a> we realized we did not have a <em>beginner</em> decorator Bite, so here it is!</p>
+<p>Complete the <code>sandwich</code> decorator which takes a function and prints <em>=== Upper bread slice ===</em> (defined in <code>UPPER_SLICE</code>) and <em>=== Lower bread slice ===</em> (defined in <code>LOWER_SLICE</code>) before and after calling the passed in function (<code>func</code>).</p>
+<p>And voil&agrave; applying this decorator to <code>add_ingredients</code> you have your sandwich (see also the tests):</p>
+<pre>&gt;&gt;&gt; from sandwich import sandwich
+&gt;&gt;&gt; @sandwich
+... def add_ingredients(ingredients):
+...     print(' / '.join(ingredients))
+...
+&gt;&gt;&gt; ingredients = ['bacon', 'lettuce', 'tomato']
+&gt;&gt;&gt; add_ingredients(ingredients)
+=== Upper bread slice ===
+bacon / lettuce / tomato
+=== Lower bread slice ===
+</pre>
+<p>This is probably the easiest way to demo a decorator. Even so decorators can be confusing when you start using them so here is an article we wrote some time ago: <a href="https://pybit.es/articles/decorators-by-example/" target="_blank" rel="noopener">Learning Python Decorators by Example</a>.</p>
