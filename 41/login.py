@@ -16,13 +16,12 @@ See also the tests for more details. Have fun and enjoy!
 
 def login_required(func):
     @wraps(func)
-    def wrapper(*args):
-        user = [*args][0]
+    def wrapper(user):
         if user not in known_users:
             return "please create an account"
         if user not in loggedin_users:
             return "please login"
-        return func(*args)
+        return func(user)
 
     return wrapper
 
