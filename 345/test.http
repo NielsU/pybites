@@ -1,0 +1,25 @@
+GET http://127.0.0.1:8000/
+Authorization: Bearer <>
+
+
+POST http://127.0.0.1:8000/
+Authorization: Bearer <>
+
+{
+  "id": 0,
+  "user": {
+    "id": 4,
+    "username": "Niels",
+    "password": "string"
+  },
+  "food": {
+    "id": 0,
+    "name": "string",
+    "serving_size": "string",
+    "kcal_per_serving": 0,
+    "protein_grams": 0,
+    "fibre_grams": 0
+  },
+  "date_added": "2024-08-04T15:13:45.673284",
+  "number_servings": 0
+}
