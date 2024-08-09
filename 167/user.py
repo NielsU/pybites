@@ -1,6 +1,6 @@
 class User:
     """A User class
-       (Django's User model inspired us)
+    (Django's User model inspired us)
     """
 
     def __init__(self, first_name, last_name):
@@ -11,22 +11,21 @@ class User:
     @property
     def get_full_name(self):
         """Return first and last name separated by a whitespace
-           and using title case for both.
+        and using title case for both.
         """
-        # TODO 1: you code
-        pass
+        return f"{str(self.first_name).title()} {str(self.last_name).title()}"
 
     @property
     def username(self):
         """A username consists of the first char of
-           the user's first_name and the first 7 chars
-           of the user's last_name, both lowercased.
+        the user's first_name and the first 7 chars
+        of the user's last_name, both lowercased.
 
-           If this is your first property, check out:
-           https://pybit.es/property-decorator.html
+        If this is your first property, check out:
+        https://pybit.es/property-decorator.html
         """
         # TODO 2: you code
-        pass
+        return f"{self.first_name[0]}{self.last_name[0:7]}".lower()
 
     # TODO 3: you code
     #
@@ -37,10 +36,10 @@ class User:
     # see also TESTS for required output
 
     def __str__(self):
-        pass
+        return f"{self.get_full_name} ({self.username})"
 
     def __repr__(self):
         """Don't hardcode the class name, hint: use a
-           special attribute of self.__class__ ...
+        special attribute of self.__class__ ...
         """
-        pass
+        return f"{self.__class__.__name__}('{self.first_name}', '{self.last_name}')"
