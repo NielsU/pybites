@@ -40,10 +40,14 @@ class Promo:
         available_bites = list(
             filter(lambda x: x not in self.bites_done, self.all_bites.keys())
         )
-        """
+       
 
         # cool, this also works by creating a set :)
         available_bites = list(set(self.all_bites).difference(self.bites_done))
+        """
+
+        # after seeing solution learned this works too:
+        available_bites = list(BITES.keys() - self.bites_done)
 
         if len(available_bites) == 0:
             raise NoBitesAvailable
