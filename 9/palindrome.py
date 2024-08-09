@@ -57,4 +57,14 @@ def get_longest_palindrome(words=None):
     return max([word for word in words if is_palindrome(word)], key=len)
 
 
-print(is_palindrome("A Toyota’s a Toyota."))
+# The given PyBites solution reveiled that swapping/reversing a string is possible
+# by using slicing and the step argument. https://docs.python.org/3/library/functions.html#slice.step
+x = "abc"
+
+print("".join(x[::-1]))  # prints cba
+
+# alternatively function reverse does the trick. I overlooked this one, tried reversed but got a reversed object.
+print(reverse(x))  # prints cba
+
+# using reversed is also possible, this function returns a iterable, the join is used to exoust the iterator and get the reversed string.
+print("".join(reversed(x)))  # prints cba
