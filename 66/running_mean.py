@@ -7,7 +7,7 @@ def rounded_avg(values: list[int]) -> float:
 
 
 # Solution with creating slices, did not have to use isslice i think.
-def running_mean(sequence):
+def running_mean1(sequence):
     """Calculate the running mean of the sequence passed in,
     returns a sequence of same length with the averages.
     You can assume all items in sequence are numeric."""
@@ -24,10 +24,10 @@ def running_mean2(sequence):
     return [rounded_avg(sequence[:i]) for i in range(1, len(sequence) + 1)]
 
 
-# solution using accumulate. I think this is more opague/ diffcult to understand.
-def running_mean3(sequence):
-    # get accummulated values in a list.
-    accum = itertools.accumulate(sequence)
-
+# Solution using accumulate.
+def running_mean(sequence):
     # use index to calculate the avg/mean value for each item.
-    return [round(value / (index), 2) for index, value in enumerate(accum, start=1)]
+    return [
+        round(value / (index), 2)
+        for index, value in enumerate(itertools.accumulate(sequence), start=1)
+    ]
