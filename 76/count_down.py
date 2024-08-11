@@ -22,13 +22,9 @@ def _(data_type: str):
 """
 
 
-@count_down.register
-def _(data_type: float):
-    count_down(str(data_type))
-
-
-@count_down.register
-def _(data_type: int):
+@count_down.register(float)
+@count_down.register(int)
+def _(data_type):
     count_down(str(data_type))
 
 
