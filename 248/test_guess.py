@@ -2,6 +2,7 @@ from unittest.mock import patch
 import pytest
 
 from guess import GuessGame, InvalidNumber, MAX_NUMBER
+from contextlib import nullcontext as does_not_raise
 
 
 def test_max_number():
@@ -34,6 +35,10 @@ def test_init_validations():
 
     with pytest.raises(InvalidNumber, match="Number too high"):
         GuessGame((MAX_NUMBER + 1))
+
+    with does_not_raise():
+        GuessGame(0)
+        GuessGame(MAX_NUMBER)
 
 
 def test_validations_function():
@@ -73,7 +78,7 @@ def test_validations_function():
     [
         pytest.param(1, 5, ["1"], f"{ask_for_input_text}{correct_guess_response}", id="scenario 1"),
         pytest.param(4, 1, ["5"], f"{ask_for_input_text}Too high\nSorry, the number was 4\n", id="scenario 2"),
-        pytest.param(5, 3, ["4","5"], f"{ask_for_input_text}Too low\n{ask_for_input_text}{correct_guess_response}", id="scenario 3"),
+        pytest.param(5, 2, ["4","5"], f"{ask_for_input_text}Too low\n{ask_for_input_text}{correct_guess_response}", id="scenario 3"),
         pytest.param(5, 3, ["NotANumber","5"], f"{ask_for_input_text}Enter a number, try again\n{ask_for_input_text}{correct_guess_response}", id="scenario 4"),
     ],
 )
