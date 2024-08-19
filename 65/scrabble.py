@@ -18,16 +18,11 @@ def get_possible_dict_words(draw):
     """Get all possible words from a draw (list of letters) which are
     valid dictionary words. Use _get_permutations_draw and provided
     dictionary"""
-    possible_dict_words = []
-    permutations = _get_permutations_draw(draw)
+    words = set(
+        "".join(permutation).lower() for permutation in _get_permutations_draw(draw)
+    )
 
-    for permutation in permutations:
-        word = "".join(permutation).lower()
-
-        if word in dictionary:
-            possible_dict_words.append(word)
-
-    return possible_dict_words
+    return [word for word in words if word in dictionary]
 
 
 def _get_permutations_draw(draw):
