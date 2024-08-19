@@ -22,7 +22,7 @@ def get_possible_dict_words(draw):
         "".join(permutation).lower() for permutation in _get_permutations_draw(draw)
     )
 
-    return [word for word in words if word in dictionary]
+    return words & set(dictionary)
 
 
 def _get_permutations_draw(draw):
