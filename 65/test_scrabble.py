@@ -2,10 +2,18 @@ import pytest
 
 from scrabble import get_possible_dict_words
 
-scrabble_scores = [(1, "E A O I N R T L S U"), (2, "D G"), (3, "B C M P"),
-                   (4, "F H V W Y"), (5, "K"), (8, "J X"), (10, "Q Z")]
-LETTER_SCORES = {letter: score for score, letters in scrabble_scores
-                 for letter in letters.split()}
+scrabble_scores = [
+    (1, "E A O I N R T L S U"),
+    (2, "D G"),
+    (3, "B C M P"),
+    (4, "F H V W Y"),
+    (5, "K"),
+    (8, "J X"),
+    (10, "Q Z"),
+]
+LETTER_SCORES = {
+    letter: score for score, letters in scrabble_scores for letter in letters.split()
+}
 
 
 def calc_word_value(word):
@@ -18,15 +26,18 @@ def max_word_value(words):
     return max(words, key=calc_word_value)
 
 
-@pytest.mark.parametrize("draw, expected", [
-    ('T, I, I, G, T, T, L', 'gilt'),
-    ('O, N, V, R, A, Z, H', 'zonar'),
-    ('E, P, A, E, I, O, A', ('apio', 'peai')),
-    ('B, R, C, O, O, E, O', 'boce'),
-    ('G, A, R, Y, T, E, V', 'garvey'),
-])
+@pytest.mark.parametrize(
+    "draw, expected",
+    [
+        ("T, I, I, G, T, T, L", "gilt"),
+        ("O, N, V, R, A, Z, H", "zonar"),
+        ("E, P, A, E, I, O, A", ("apio", "peai")),
+        ("B, R, C, O, O, E, O", "boce"),
+        ("G, A, R, Y, T, E, V", "garvey"),
+    ],
+)
 def test_max_word(draw, expected):
-    draw = draw.split(', ')
+    draw = draw.split(", ")
     words = get_possible_dict_words(draw)
     if len(expected) > 1:
         assert max_word_value(words) in expected
