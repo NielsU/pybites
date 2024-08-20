@@ -38,5 +38,4 @@ def serialize(
         data = deserialize()
 
     with open(pkl_file, mode="wb") as f:
-        pickled_data = pickle.dumps(data)
-        f.write(pickled_data)
+        pickle.dump(data, f)
