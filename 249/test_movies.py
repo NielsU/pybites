@@ -46,25 +46,32 @@ def test_db_init(db):
     assert type(db) is MovieDb
 
 
-def test_db_query(db):
-    assert len(db.query()) == 10
+db_row_citizen_kane = [(6, "Citizen Kane", 1941, 8.3)]
+
+# expected result for all db rows in query result.
+all_db_rows = [(i + 1, *values) for i, values in enumerate(DATA)]
 
 
-def test_db_query_title(db):
-    title = "Citizen Kane"
-    movie_list = db.query(title=title)
+@pytest.mark.parametrize(
+    "title,year,score_gt,exp_len,exp_data",
+    [
+        ("Citizen Kane", None, None, 1, db_row_citizen_kane),
+        ("Citizen Kane", 1941, 8.3, 1, db_row_citizen_kane),
+        (None, 1941, None, 1, db_row_citizen_kane),
+        ("Cit", None, None, 1, db_row_citizen_kane),
+        ("Kane", None, None, 1, db_row_citizen_kane),
+        ("NoMatch", None, None, 0, []),
+        (None, None, 8.9, 2, None),
+        (None, None, None, 10, all_db_rows),
+    ],
+)
+def test_db_query(db, title, year, score_gt, exp_len, exp_data):
+    q_result = db.query(title=title, year=year, score_gt=score_gt)
 
-    assert len(movie_list) == 1
-    assert type(movie_list[0]) is tuple
-    assert movie_list[0][1] == title
-
-
-def test_db_query_year(db):
-    title = "Citizen Kane"
-    movie_list = db.query(year=1941)
-
-    assert len(movie_list) == 1
-    assert movie_list[0][1] == title
+    if exp_len is not None:
+        assert len(q_result) == exp_len
+    if exp_data is not None:
+        assert q_result == exp_data
 
 
 def test_db_query_score(db):
@@ -74,22 +81,16 @@ def test_db_query_score(db):
     for movie in movie_list:
         assert movie[3] > score
 
-    assert len(movie_list) == 2
-
-
-def test_db_query_no_match(db):
-    movie_list = db.query(score_gt=10)
-    assert len(movie_list) == 0
-
 
 def test_add(db):
     # record to add:
     title = "Forrest Gump"
     year = 1994
     score = 8.8
+    idx = 11
 
     db.add(title, year, score)
-    expected = [(11, title, year, score)]
+    expected = [(idx, title, year, score)]
 
     assert db.query(title=title) == expected
 
