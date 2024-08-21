@@ -25,8 +25,14 @@ def nr_of_nominations(movie: dict) -> int:
 
 def get_movie_most_nominations(movies: list) -> str:
     """Return the movie that had the most nominations"""
-    movies.sort(key=lambda movie: nr_of_nominations(movie), reverse=True)
-    return movies[0].get("Title")
+    # Solution using sort
+    # movies.sort(key=lambda movie: nr_of_nominations(movie), reverse=True)
+    # return movies[0].get("Title")
+
+    # solution with max, had overlooked max has key argument,
+    # pybites provided solutions was hint. simplifies the solution a bit i think.
+    mv = max(movies, key=lambda m: nr_of_nominations(m))
+    return mv.get("Title")
 
 
 def get_movie_longest_runtime(movies: list) -> str:
