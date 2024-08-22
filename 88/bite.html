@@ -1,0 +1,9 @@
+<p>It's time for <em>Context Managers</em> part II. In <a href="../../../../../bites/20/">Bite 20</a> you used it to roll back a transaction implementing the <code>__enter__</code> and <code>__exit__</code> dunder methods.</p>
+<p>In this Bite you will write a context manager using <code>contextlib.contextmanager</code> that measures performance of operations executed in its context:</p>
+<pre>with timeit():
+  ... measure time in seconds of the the stuff done in this block ...
+</pre>
+<p>Complete the <code>timeit</code> context manager implementing mentioned timing in seconds (<em>duration</em>).</p>
+<p>Keep track of performance violations which we define as <em>duration &gt;= 2.2 (<code>OPERATION_THRESHOLD_IN_SECONDS</code>)</em>.</p>
+<p>If there are &gt;= 3 (<code>ALERT_THRESHOLD</code>) violations the same day, print <em>ALERT: suffering performance hit today</em> (<code>ALERT_MSG</code>).</p>
+<p>Good luck and keep calm and code in Python!</p>
