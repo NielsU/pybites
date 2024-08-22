@@ -27,8 +27,9 @@ def timeit():
     if duration >= OPERATION_THRESHOLD_IN_SECONDS:
         violations.update([get_today()])
 
-    try:
-        if dict(violations)[get_today()] >= ALERT_THRESHOLD:
+        if violations.get(get_today(), 0) >= ALERT_THRESHOLD:
             print(ALERT_MSG)
-    except KeyError:
-        pass
+
+
+with timeit():
+    print("hello")
