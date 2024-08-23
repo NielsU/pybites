@@ -54,7 +54,7 @@ def neighbouring_land(i: int, j: int, grid: list[list]) -> list[tuple]:
 
     # check prev next position in same row
     for x in range((j - 1), (j + 1) + 1, 2):
-        if is_new_land(i, x, grid) == 1:
+        if is_new_land(i, x, grid):
             neighbours.append((i, x))
 
     return neighbours
