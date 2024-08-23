@@ -14,15 +14,17 @@ def count_islands(grid: list[list]) -> int:
 
     islands = 0
 
-    for i in range(0, len(grid)):
-        while True:
-            try:
-                j = grid[i].index(1)
-            except ValueError:
-                break
+    def island_gen(grid: list[list]):
+        for i in range(0, len(grid)):
+            while True:
+                try:
+                    yield (i, grid[i].index(1))  # next island position in grid.
+                except ValueError:
+                    break
 
-            islands += 1
-            mark_island(i, j, grid)
+    for island in island_gen(grid):
+        islands += 1
+        mark_island(*island, grid)
 
     return islands
 
