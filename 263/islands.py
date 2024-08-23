@@ -74,15 +74,16 @@ def neighbouring_land(i, j, grid):
 
 def mark_island(i, j, grid):
     if grid[i][j] == 1:
-        neighbours = neighbouring_land(i, j, grid)
+        # mark current position as island.
         grid[i][j] = ISLAND_MARKER
 
-        if len(neighbours) > 0:
-            for neighbour in neighbours:
-                if neighbour != (i, j):
-                    mark_island(*neighbour, grid=grid)
+        # get neigbouring land (part of same island)
+        neighbours = neighbouring_land(i, j, grid)
 
-            return
+        for neighbour in neighbours:
+            mark_island(*neighbour, grid=grid)
+
+        return
 
 
 def mark_islands(i, j, grid):
