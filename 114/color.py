@@ -2,6 +2,7 @@ import os
 import sys
 import urllib.request
 import re
+import functools
 
 # PREWORK (don't modify): import colors, save to temp file and import
 tmp = os.getenv("TMP", "/tmp")
@@ -28,15 +29,22 @@ class Color:
         except KeyError:
             self.rgb = None
 
-    @staticmethod
-    def _validate_rbg(color: tuple[int, int, int]):
+    def _validate_rbg(func):
         """Validates if color is a valid rgb tuple"""
 
-        err_msg = "must be tuple(int,int,int) with int values in Range(0,256)"
-        if not isinstance(color, tuple):
-            raise ValueError(err_msg)
-        elif not all([0 <= value <= 255 for value in color]):
-            raise ValueError(err_msg)
+        @functools.wraps(func)
+        def inner_validate_rbg(*args, **kwargs):
+
+            err_msg = "must be tuple(int,int,int) with int values in Range(0,256)"
+            if not isinstance(args[0], tuple):
+                raise ValueError(err_msg)
+            elif not all(type(value) is int for value in args[0]):
+                raise ValueError(err_msg)
+            elif not all([0 <= value <= 255 for value in args[0]]):
+                raise ValueError(err_msg)
+            func(*args, **kwargs)
+
+        return inner_validate_rbg
 
     @staticmethod
     def _validate_hex(color: str):
@@ -50,10 +58,10 @@ class Color:
         Color._validate_hex(hex)
         return (int(hex[1:3], 16), int(hex[3:5], 16), int(hex[5:7], 16))
 
+    @_validate_rbg
     @staticmethod
     def rgb2hex(rgb: tuple[int, int, int]) -> str:
         """Class method that converts an rgb value into a hex one"""
-        Color._validate_rbg(rgb)
         return "#" + ("".join(f"{rgb[i]:02x}" for i in range(0, 3)))
 
     def __repr__(self):
@@ -63,3 +71,6 @@ class Color:
     def __str__(self):
         """Returns the string value of the color object"""
         return f"{self.rgb}" if self.rgb else "Unknown"
+
+
+Color.rgb2hex((256, 256, 0))
