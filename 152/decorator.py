@@ -37,3 +37,25 @@ def strip_range(start, end):
         return inner_strip_range
 
     return wrapper
+
+
+def to_upper(func):
+    @wraps(func)
+    def actual_decorator(text):
+        text = str(text).upper()
+
+        return func(text)
+
+    return actual_decorator
+
+
+@strip_range(4, 6)
+@to_upper
+@strip_range(1, 3)
+def echo(text):
+    return text
+
+
+print(echo(text="hello world!"))
+
+print(echo("hello world!"))
