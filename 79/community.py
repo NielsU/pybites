@@ -23,4 +23,4 @@ def create_user_bar_chart(content):
     c = Counter([row["tz"] for row in reader])
 
     for tz, count in c.items():
-        print(f"{tz:<21}| " + "+" * count)
+        print(f"{tz:<21}| {'+'*count}")
