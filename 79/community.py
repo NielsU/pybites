@@ -9,8 +9,6 @@ def get_csv():
     """Use requests to download the csv and return the
     decoded content"""
     r = requests.get(CSV_URL)
-    r.encoding = "utf8"
-
     return r.text
 
 
