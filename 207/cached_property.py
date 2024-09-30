@@ -4,7 +4,22 @@ from time import sleep
 
 def cached_property(func):
     """decorator used to cache expensive object attribute lookup"""
-    ...
+
+    def getter(self) -> str:
+        try:
+            if self.prop_cache is None:
+                # if statement will raise attribute error initially as prop_cache does not exist.
+                pass
+        except AttributeError:
+            self.prop_cache = dict()
+
+        if func.__name__ in self.prop_cache:
+            return self.prop_cache[func.__name__]
+        else:
+            self.prop_cache[func.__name__] = func(self)
+            return self.prop_cache[func.__name__]
+
+    return property(getter)
 
 
 class Planet:
@@ -12,23 +27,26 @@ class Planet:
 
     GRAVITY_CONSTANT = 42
     TEMPORAL_SHIFT = 0.12345
-    SOLAR_MASS_UNITS = 'M\N{SUN}'
+    SOLAR_MASS_UNITS = "M\N{SUN}"
 
     def __init__(self, color):
         self.color = color
         self._mass = None
 
     def __repr__(self):
-        return f'{self.__class__.__name__}({repr(self.color)})'
+        return f"{self.__class__.__name__}({repr(self.color)})"
 
-    @property
+    @cached_property
     def mass(self):
         scale_factor = random()
         sleep(self.TEMPORAL_SHIFT)
-        self._mass = (f'{round(scale_factor * self.GRAVITY_CONSTANT, 4)} '
-                      f'{self.SOLAR_MASS_UNITS}')
+        self._mass = (
+            f"{round(scale_factor * self.GRAVITY_CONSTANT, 4)} "
+            f"{self.SOLAR_MASS_UNITS}"
+        )
         return self._mass
 
-    @mass.setter
-    def mass(self, value):
-        self._mass = value
+
+x = Planet("white")
+
+print(x.mass)
