@@ -6,18 +6,19 @@ def cached_property(func):
     """decorator used to cache expensive object attribute lookup"""
 
     def getter(self) -> str:
+        # initialise caching dictionary
         try:
             if self.prop_cache is None:
-                # if statement will raise attribute error initially as prop_cache does not exist.
                 pass
         except AttributeError:
             self.prop_cache = dict()
 
-        if func.__name__ in self.prop_cache:
-            return self.prop_cache[func.__name__]
-        else:
+        # cache the value
+        if func.__name__ not in self.prop_cache:
             self.prop_cache[func.__name__] = func(self)
-            return self.prop_cache[func.__name__]
+
+        # return cached value
+        return self.prop_cache[func.__name__]
 
     return property(getter)
 
