@@ -54,6 +54,7 @@ class DB:
         self.cursor = None
         self.connection = None
         self.table_schemas = {}
+        self._transactions = 0
 
     def __enter__(self):
         self.connection = sqlite3.connect(self.location)
@@ -92,15 +93,18 @@ class DB:
 
         for item in schema:
             # ADD COLUMN
-            sql_schema += f"{item[0]} {item[1]}"
+            sql_schema += f"{item[0]} {str(item[1].name)}"
             # If indicate primary key
             if item[0] == primary_key:
-                sql_schema += "PRIMARY KEY"
+                sql_schema += " PRIMARY KEY"
             # end line
-            sql_schema += ","
+            sql_schema += ", "
+
+        sql_schema = sql_schema[0:-2]
+        full_query = f"CREATE TABLE {table} ( {sql_schema} );"
 
         # execute table creation
-        self.cursor.execute(f"CREATE_TABLE {table} ( {schema} )")
+        self.cursor.execute(full_query)
 
     def delete(self, table: str, target: Tuple[str, Any]):
         """Deletes rows from the table.
@@ -187,4 +191,4 @@ class DB:
         Returns:
             int: Returns the total number of database rows that have been modified.
         """
-        raise NotImplementedError("You have to implement this method first.")
+        return self._transactions
