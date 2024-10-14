@@ -162,22 +162,32 @@ class DB:
         # get table schema:
         table_schema = self._table_schema(table)
 
-        # check number of columns
-        for value in values:
-            if len(table_schema) != len(value):
+        # execute schema validation for each row.
+        for row in values:
+            # check if number of columns in value row matches schema
+            if len(table_schema) != len(row):
                 raise SchemaError(
                     f"Table {table} expects items with {len(table_schema)} values."
                 )
 
-            for index, column in enumerate(value):
+            # check if colum value type matches the type exected in db column.
+            for index, column in enumerate(row):
                 if not isinstance(column, table_schema[index][1].value):
                     raise SchemaError(
                         f"Column {table_schema[index][0]} expects values of type {table_schema[index][1].value.__name__}."
                     )
 
-            str_columns = "(" + str("?, " * len(value)).rstrip(", ") + ")"
+        # execute insert per row (could be changed to execute multiple)
+        for row in values:
+            # construct sql_snippet for parameter placeholders based on nr of values
+            str_columns = "(" + str("?, " * len(row)).rstrip(", ") + ")"
+
+            # construct the insert statement
             sql_statement = f"INSERT INTO {table} VALUES {str_columns}"
-            self.cursor.execute(sql_statement, value)
+
+            self.cursor.execute(sql_statement, row)
+
+            # update transaction log
             self._transactions += self.cursor.rowcount
 
         self.connection.commit()
