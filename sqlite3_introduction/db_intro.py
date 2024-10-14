@@ -65,6 +65,14 @@ class DB:
     def __exit__(self, exc_type, exc_value, traceback):
         self.connection.close()
 
+    def _table_schema(self, tablename: str) -> List[Tuple[str, Enum, int]]:
+        self.cursor.execute(str.format("PRAGMA table_xinfo({0})", tablename))
+        table_info = self.cursor.fetchall()
+        return [
+            (str(item[1]), SQLiteType._member_map_[item[2]], int(item[-1]))
+            for item in table_info
+        ]
+
     def create(
         self, table: str, schema: List[Tuple[str, SQLiteType]], primary_key: str
     ):
@@ -89,6 +97,11 @@ class DB:
         Raises:
             SchemaError: If the given primary key is not part of the schema.
         """
+        # filter out the schema item matching primary key, if not present raise error
+        if len(list(filter(lambda i: i[0] == primary_key, schema))) == 0:
+            raise SchemaError("The provided primary key must be part of the schema.")
+
+        # construct sql create statement based on schema
         sql_schema = ""
 
         for item in schema:
@@ -146,7 +159,28 @@ class DB:
             SchemaError: If a value does not respect the table schema or
                 if there are more values than columns for the given table.
         """
-        raise NotImplementedError("You have to implement this method first.")
+        # get table schema:
+        table_schema = self._table_schema(table)
+
+        # check number of columns
+        for value in values:
+            if len(table_schema) != len(value):
+                raise SchemaError(
+                    f"Table {table} expects items with {len(table_schema)} values."
+                )
+
+            for index, column in enumerate(value):
+                if not isinstance(column, table_schema[index][1].value):
+                    raise SchemaError(
+                        f"Column {table_schema[index][0]} expects values of type {table_schema[index][1].value.__name__}."
+                    )
+
+            str_columns = "(" + str("?, " * len(value)).rstrip(", ") + ")"
+            sql_statement = f"INSERT INTO {table} VALUES {str_columns}"
+            self.cursor.execute(sql_statement, value)
+            self._transactions += self.cursor.rowcount
+
+        self.connection.commit()
 
     def select(
         self,
