@@ -129,7 +129,15 @@ class DB:
                 wanted to remove the row(s) with the year 1999, you would pass it
                 ("year", 1999). Only supports "=" operator in this bite.
         """
-        raise NotImplementedError("You have to implement this method first.")
+
+        sql_statement = f"DELETE FROM {table} WHERE {target[0]} = ?"
+
+        self.cursor.execute(sql_statement, [target[1]])
+
+        self._transactions += self.cursor.rowcount
+
+        if self.connection.in_transaction:
+            self.connection.commit()
 
     def insert(self, table: str, values: List[Tuple]):
         """Inserts one or multiple new records into the database.
