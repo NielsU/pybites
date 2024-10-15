@@ -1,6 +1,6 @@
 import sqlite3
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, List, Optional, Tuple
 
 
 class SQLiteType(Enum):
@@ -259,7 +259,17 @@ class DB:
                 if you wanted to change "year" to 2001 you would pass it ("year", 2001).
             target (tuple): The row/record to modify. Example ("year", 1991)
         """
-        raise NotImplementedError("You have to implement this method first.")
+
+        update_statement = (
+            f"UPDATE {table} SET {new_value[0]} = ? WHERE {target[0]} = ? "
+        )
+
+        self.cursor.execute(update_statement, [new_value[-1], target[-1]])
+
+        self._transactions += self.cursor.rowcount
+
+        if self.connection.in_transaction:
+            self.connection.commit()
 
     @property
     def num_transactions(self) -> int:
