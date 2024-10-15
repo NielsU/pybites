@@ -189,8 +189,8 @@ class DB:
 
             # update transaction log
             self._transactions += self.cursor.rowcount
-
-        self.connection.commit()
+        if self.connection.in_transaction:
+            self.connection.commit()
 
     def select(
         self,
@@ -215,7 +215,32 @@ class DB:
         Returns:
             list: The output returned from the sql command
         """
-        raise NotImplementedError("You have to implement this method first.")
+
+        # compose columns sql snippit
+        sql_columns = ""
+        if columns is None or len(columns) < 1:
+            sql_columns = " * "
+        else:
+            sql_columns = ", ".join(columns)
+
+        # compose where clause
+        sql_where = ""
+        values = []
+        if target is not None:
+            if len(target) < 3:
+                sql_where = f" {target[0]} = ?"
+            else:
+                sql_where = f" {target[0]} {target[1]} ?"
+
+            values.append(target[-1])
+            sql_where = " WHERE " + sql_where
+
+        # construct select statement
+        select_statement = f"SELECT {sql_columns} FROM {table}{sql_where}"
+
+        # query and return results
+        result = self.cursor.execute(select_statement, values)
+        return result.fetchall()
 
     def update(self, table: str, new_value: Tuple[str, Any], target: Tuple[str, Any]):
         """Update a record in the database.
