@@ -104,16 +104,17 @@ class DB:
         # construct sql create statement based on schema
         sql_schema = ""
 
-        for item in schema:
+        columns = []
+        for name, type_ in schema:
             # ADD COLUMN
-            sql_schema += f"{item[0]} {str(item[1].name)}"
+            column = f"{name} {str(type_.name)}"
             # If indicate primary key
-            if item[0] == primary_key:
-                sql_schema += " PRIMARY KEY"
+            if name == primary_key:
+                column += " PRIMARY KEY"
             # end line
-            sql_schema += ", "
+            columns.append(column)
 
-        sql_schema = sql_schema[0:-2]
+        sql_schema = ",".join(columns)
         full_query = f"CREATE TABLE {table} ( {sql_schema} );"
 
         # execute table creation
