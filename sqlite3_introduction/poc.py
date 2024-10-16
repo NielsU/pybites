@@ -34,5 +34,3 @@ with DB() as db:
     schema_dict = get_schema(db.cursor, "product")
 
     print(schema_dict)
-
-# print(SQLiteType._member_map_["TEXT"])
