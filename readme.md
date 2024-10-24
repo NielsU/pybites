@@ -4,6 +4,7 @@ The file intents to be a quick reference for the topics covered in each bite.
 # Bites
 
 |Bite | Topics | 
+| -------- | ------- |
 |6 | Counter | 
 |9 | Math Ceil, string formatting|
 |13 | namedtuple, datetime, json |
