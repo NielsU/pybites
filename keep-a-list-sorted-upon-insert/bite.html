@@ -1,0 +1,32 @@
+<p class="text-sm italic text-gray-700 dark:text-white mb-4">
+              Level: Beginner (score: 2)
+            </p>
+<p class="text-gray-700"></p><p>Complete the <code>add</code> method of the <code>OrderedList</code> class which takes a <code>num</code> argument and adds that to the <code>self._numbers list</code> keeping it ordered upon insert.</p>
+<p>Using a manual <code>.sort()</code> or <code>.sorted()</code> each time is not allowed. Look into the <code>bisect</code> module how to do it ...</p>
+<p>Here is how it should works:</p>
+<pre>order = OrderedList()
+order.add(10)
+print(order)  # __str__ already provided
+order.add(1)
+print(order)
+order.add(16)
+print(order)
+order.add(5)
+print(order)
+</pre>
+<p>Output:</p>
+<pre>10
+1, 10
+1, 10, 16
+1, 5, 10, 16
+</pre>
+<p>Picking the right data structure is usually half of the battle. Good luck and keep calm and code more Python!</p><p></p>
+<hr class="my-4 dark:border-gray-900"/>
+<p class="text-gray-700"></p>
+<div class="mt-4">
+<a class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full tag" href="/bites/tag/classes">classes</a>
+<a class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full tag" href="/bites/tag/data-structures">data structures</a>
+<a class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full tag" href="/bites/tag/str">__str__</a>
+<a class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full tag" href="/bites/tag/bisect">bisect</a>
+</div>
+</div>
